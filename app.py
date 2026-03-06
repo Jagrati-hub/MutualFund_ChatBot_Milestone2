@@ -68,57 +68,7 @@ EXAMPLE_QUERIES: list[str] = [
     "Is the Groww Liquid Fund suitable for short-term parking of funds?",
 ]
 
-# All 32 Groww AMC funds, organised by category
-SCOPE_FUNDS_BY_CATEGORY: dict[str, list[str]] = {
-    "📈 Equity": [
-        "Groww Nifty Total Market Index Fund",
-        "Groww Multicap Fund",
-        "Groww Small Cap Fund",
-        "Groww Large Cap Fund",
-        "Groww Value Fund",
-        "Groww ELSS Tax Saver Fund",
-        "Groww Banking & Financial Services Fund",
-        "Groww Nifty Smallcap 250 Index Fund",
-        "Groww Nifty Non-Cyclical Consumer Index Fund",
-        "Groww Nifty Next 50 Index Fund",
-        "Groww Nifty Midcap 150 Index Fund",
-        "Groww Nifty EV & New Age Automotive ETF FoF",
-        "Groww Nifty India Defence ETF FoF",
-        "Groww Nifty 200 ETF FoF",
-        "Groww Nifty 500 Momentum 50 ETF FoF",
-        "Groww Nifty India Railways PSU Index Fund",
-        "Groww BSE Power ETF FoF",
-        "Groww Nifty India Internet ETF FoF",
-        "Groww Nifty PSE ETF FoF",
-        "Groww Nifty Capital Markets ETF FoF",
-    ],
-    "🏦 Debt": [
-        "Groww Liquid Fund",
-        "Groww Overnight Fund",
-        "Groww Short Duration Fund",
-        "Groww Dynamic Bond Fund",
-        "Groww Gilt Fund",
-        "Groww Nifty 1D Rate Liquid ETF",
-    ],
-    "⚖️ Hybrid": [
-        "Groww Aggressive Hybrid Fund",
-        "Groww Multi Asset Allocation Fund",
-        "Groww Arbitrage Fund",
-        "Groww Multi Asset Omni FoF",
-    ],
-    "🪙 Commodities": [
-        "Groww Gold ETF FoF",
-        "Groww Silver ETF FoF",
-    ],
-}
-
-# Flat list for backward-compat references
-SCOPE_FUNDS: list[str] = [
-    fund for funds in SCOPE_FUNDS_BY_CATEGORY.values() for fund in funds
-]
-
-
-# ── Custom CSS ─────────────────────────────────────────────────────────────────
+from src.shared import SCOPE_FUNDS_BY_CATEGORY, SCOPE_FUNDS, ensure_scheduler_started
 CUSTOM_CSS = """
 <style>
 /* ── Google Fonts ── */
@@ -315,16 +265,7 @@ hr {
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
 
-# ── Scheduler (cached: runs once per process) ──────────────────────────────────
-@st.cache_resource
-def _init_scheduler():
-    """Start the APScheduler background job exactly once per process."""
-    return start_scheduler_once()
-
-
-def ensure_scheduler_started() -> Any:
-    """Idempotent call – safe on every Streamlit rerun."""
-    return _init_scheduler()
+# ── Custom CSS ─────────────────────────────────────────────────────────────────
 
 
 # ── Query handler ──────────────────────────────────────────────────────────────
@@ -355,48 +296,6 @@ def handle_query(user_query: str) -> Dict[str, Any]:
             "answer": f"⚠️ A backend error occurred: {exc}",
             "citation_url": None,
         }
-
-
-# ── Sidebar ────────────────────────────────────────────────────────────────────
-def render_sidebar(scheduler) -> None:
-    with st.sidebar:
-        st.markdown("## ⚙️ Admin Panel")
-        st.markdown("---")
-
-        # Next scheduled run
-        st.markdown("### 🕐 Scheduler Status")
-        if scheduler and scheduler.running:
-            st.success("Scheduler is **running**", icon="✅")
-            try:
-                job = scheduler.get_job("daily_scrape_and_ingest")
-                if job and job.next_run_time:
-                    st.caption(f"Next run: **{job.next_run_time.strftime('%d %b %Y, %I:%M %p %Z')}**")
-            except Exception:
-                pass
-        else:
-            st.warning("Scheduler not running", icon="⚠️")
-
-        st.markdown("---")
-        st.markdown("### 🔄 Manual Pipeline")
-        st.caption("Trigger an immediate scrape + ingest cycle.")
-        if st.button("▶ Run Pipeline Now", use_container_width=True):
-            with st.spinner("Running scrape → ingest pipeline…"):
-                try:
-                    run_pipeline_once()
-                    st.success("Pipeline completed successfully!", icon="✅")
-                except Exception as exc:
-                    st.error(f"Pipeline failed: {exc}", icon="❌")
-
-        st.markdown("---")
-        st.markdown("### 🗂️ In-Scope Funds")
-        st.caption(f"{len(SCOPE_FUNDS)} funds across 4 categories")
-        for category, funds in SCOPE_FUNDS_BY_CATEGORY.items():
-            with st.expander(category, expanded=False):
-                for fund in funds:
-                    st.markdown(f"- {fund}")
-
-        st.markdown("---")
-        st.caption("Groww MF FAQ Assistant • Facts-only • No investment advice")
 
 
 # ── Hero header ────────────────────────────────────────────────────────────────
@@ -519,8 +418,9 @@ def render_clear_button() -> None:
 
 # ── Main entry point ───────────────────────────────────────────────────────────
 def main() -> None:
-    scheduler = ensure_scheduler_started()
-    render_sidebar(scheduler)
+    # We still ensure the scheduler is started in the background
+    ensure_scheduler_started()
+    
     render_hero()
     st.markdown("---")
     render_chat_ui()
