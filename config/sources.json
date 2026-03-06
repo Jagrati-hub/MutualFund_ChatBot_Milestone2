@@ -1,0 +1,235 @@
+{
+  "sources": [
+    {
+      "name": "Groww AMC Overview",
+      "category": "Overview",
+      "url": "https://groww.in/mutual-funds/amc/groww-mutual-funds",
+      "enabled": true,
+      "type": "overview"
+    },
+    {
+      "name": "Groww Nifty Total Market Index Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-nifty-total-market-index-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Multicap Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-multicap-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Small Cap Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-small-cap-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Large Cap Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-large-cap-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Value Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-value-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww ELSS Tax Saver Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-elss-tax-saver-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Banking & Financial Services Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-banking-and-financial-services-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Nifty Smallcap 250 Index Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-nifty-smallcap-250-index-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Nifty Non-Cyclical Consumer Index Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-nifty-non-cyclical-consumer-index-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Nifty Next 50 Index Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-nifty-next-50-index-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Nifty Midcap 150 Index Fund",
+      "category": "Equity",
+      "url": "https://groww.in/mutual-funds/groww-nifty-midcap-150-index-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Liquid Fund",
+      "category": "Debt & Liquid",
+      "url": "https://groww.in/mutual-funds/groww-liquid-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Overnight Fund",
+      "category": "Debt & Liquid",
+      "url": "https://groww.in/mutual-funds/groww-overnight-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Short Duration Fund",
+      "category": "Debt & Liquid",
+      "url": "https://groww.in/mutual-funds/groww-short-duration-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Dynamic Bond Fund",
+      "category": "Debt & Liquid",
+      "url": "https://groww.in/mutual-funds/groww-dynamic-bond-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Gilt Fund",
+      "category": "Debt & Liquid",
+      "url": "https://groww.in/mutual-funds/groww-gilt-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Nifty 1D Rate Liquid ETF",
+      "category": "Debt & Liquid",
+      "url": "https://groww.in/etfs/groww-nifty-1d-rate-liquid-etf",
+      "enabled": true,
+      "type": "etf_page"
+    },
+    {
+      "name": "Groww Aggressive Hybrid Fund",
+      "category": "Hybrid & Multi-Asset",
+      "url": "https://groww.in/mutual-funds/groww-aggressive-hybrid-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Multi Asset Allocation Fund",
+      "category": "Hybrid & Multi-Asset",
+      "url": "https://groww.in/mutual-funds/groww-multi-asset-allocation-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Arbitrage Fund",
+      "category": "Hybrid & Multi-Asset",
+      "url": "https://groww.in/mutual-funds/groww-arbitrage-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww Nifty EV & New Age Automotive ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-ev-new-age-automotive-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty India Defence ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-india-defence-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Gold ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-gold-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Silver ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-silver-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Multi Asset Omni FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-multi-asset-omni-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty 200 ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-200-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty 500 Momentum 50 ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-500-momentum-50-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty India Railways PSU Index Fund",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-india-railways-psu-index-fund-direct-growth",
+      "enabled": true,
+      "type": "fund_page"
+    },
+    {
+      "name": "Groww BSE Power ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-bse-power-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty India Internet ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-india-internet-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty PSE ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-pse-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    },
+    {
+      "name": "Groww Nifty Capital Markets ETF FoF",
+      "category": "ETFs & FoF",
+      "url": "https://groww.in/mutual-funds/groww-nifty-capital-markets-etf-fof-direct-growth",
+      "enabled": true,
+      "type": "fof_page"
+    }
+  ]
+}
