@@ -67,6 +67,12 @@ The assistant supports exactly **32 funds** across 4 categories:
 
 ## 🛡️ Key Features & Guardrails
 
+- **Multi-Page Architecture**: 
+  - **Home**: Clean, user-facing chatbot interface for mutual fund queries.
+  - **Admin Panel**: Dedicated `/admin` page for scheduler management and pipeline control.
+- **Protected Admin Access**: The Admin Panel is secured with a login gate.
+  - **URL**: Navigate to `Admin` in the sidebar.
+  - **Credentials**: Username: `admin` | Password: `admin`
 - **Stable UI**: Always-visible sample questions and smooth autoscrolling.
 - **Strict Citation**: Every factual answer includes a direct hyperlink and a "Source" citation line.
 - **Tiered Refusals**:
@@ -82,7 +88,7 @@ The assistant supports exactly **32 funds** across 4 categories:
 1. **Facts Only**: The bot cannot compute or compare fund performance (e.g., "Which fund gave better returns?"). It will redirect you to the official factsheet.
 2. **Groww AMC Only**: Information is limited to Groww Mutual Fund schemes. It does not possess data on other AMCs (HDFC, SBI, etc.).
 3. **No Advice**: The bot is strictly a document-retrieval tool and cannot provide personalized investment recommendations.
-4. **Data Recency**: Information is as current as the last scraper run (viewable in the Admin Sidebar).
+4. **Data Recency**: Information is as current as the last scraper run (viewable on the Admin Page).
 
 ---
 
