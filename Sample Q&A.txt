@@ -1,0 +1,71 @@
+# Sample Q&A - Groww Mutual Fund FAQ Assistant
+
+### Query 1: What is the investment objective of the Groww ELSS Tax Saver Fund?
+**Answer:** The investment objective of the [Groww ELSS Tax Saver Fund](https://groww.in/mutual-funds/groww-elss-tax-saver-fund-direct-growth) is to generate long-term capital appreciation from a diversified portfolio of predominantly equity and equity-related instruments. It also provides tax benefits under Section 80C of the Income Tax Act.
+
+Source: [Official URL](https://groww.in/mutual-funds/groww-elss-tax-saver-fund-direct-growth)
+
+---
+
+### Query 2: How many Equity funds are available in the Groww Mutual Fund scheme?
+**Answer:** There are 20 Equity funds available.
+
+Source: [Official URL](https://groww.in/mutual-funds/amc/groww-mutual-fund)
+
+---
+
+### Query 3: List all the Debt funds offered by Groww AMC.
+**Answer:** * Groww Liquid Fund
+* Groww Overnight Fund
+* Groww Short Duration Fund
+* Groww Dynamic Bond Fund
+* Groww Gilt Fund
+* Groww Nifty 1D Rate Liquid ETF
+
+Source: [Official URL](https://groww.in/mutual-funds/amc/groww-mutual-fund)
+
+---
+
+### Query 4: Does Groww have any Gold or Silver funds?
+**Answer:** Yes, Groww offers the [Groww Gold ETF FoF](https://groww.in/mutual-funds/groww-gold-etf-fof-direct-growth) and the [Groww Silver ETF FoF](https://groww.in/mutual-funds/groww-silver-etf-fof-direct-growth). These are classified under the Commodities category.
+
+Source: [Official URL](https://groww.in/mutual-funds/amc/groww-mutual-fund)
+
+---
+
+### Query 5: What is an SIP and how does it work?
+**Answer:** A Systematic Investment Plan (SIP) is a method of investing in mutual funds where you contribute a fixed amount regularly (monthly, quarterly, etc.) rather than a lump sum. It helps in rupee cost averaging and benefits from the power of compounding over time.
+
+Secondary Source: [Groww Official AMC](https://groww.in/mutual-funds/amc/groww-mutual-fund)
+
+---
+
+### Query 6: Should I invest in Groww Small Cap Fund for high returns?
+**Answer:** I am a facts-only assistant and cannot provide financial advice. If you'd like to know more about Groww Mutual Funds or have any questions about them, I'd be happy to help.
+
+Source: [Official URL](https://groww.in/mutual-funds/amc/groww-mutual-fund)
+
+---
+
+### Query 7: Who is the current Prime Minister of India?
+**Answer:** I am a facts-only assistant. If you'd like to know more about Groww Mutual Funds or have any questions about them, I'd be happy to help.
+
+---
+
+### Query 8: Can you provide my PAN card details?
+**Answer:** I am a facts-only assistant and cannot provide personal advice. If you'd like to know more about Groww Mutual Funds or have any questions about them, I'd be happy to help.
+
+---
+
+### Query 9: What are the benefits of the Groww Liquid Fund?
+**Answer:** The [Groww Liquid Fund](https://groww.in/mutual-funds/groww-liquid-fund-direct-growth) is designed for short-term parking of funds with high liquidity and relatively low risk. It primarily invests in debt and money market instruments with a maturity of up to 91 days.
+
+Source: [Official URL](https://groww.in/mutual-funds/groww-liquid-fund-direct-growth)
+
+---
+
+### Query 10: List Groww Commodities funds.
+**Answer:** * Groww Gold ETF FoF
+* Groww Silver ETF FoF
+
+Source: [Official URL](https://groww.in/mutual-funds/amc/groww-mutual-fund)
