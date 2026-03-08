@@ -3,10 +3,6 @@ import sys
 from pathlib import Path
 import streamlit as st
 
-# Add phase directories to Python path for imports
-_current_dir = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(_current_dir / "phase-4-orchestration"))
-
 # ── constants ──────────────────────────────────────────────────────────────────
 # All 32 Groww AMC funds, organised by category
 SCOPE_FUNDS_BY_CATEGORY: dict[str, list[str]] = {
@@ -59,10 +55,12 @@ SCOPE_FUNDS: list[str] = [
 
 @st.cache_resource
 def _init_scheduler():
-    """Start the APScheduler background job exactly once per process."""
-    from src.scheduler import start_scheduler_once
-    return start_scheduler_once()
+    """Scheduler initialization - no-op for Streamlit Cloud."""
+    # Scheduler is not needed for Streamlit Cloud deployment
+    # It's only used for local background jobs
+    return None
 
 def ensure_scheduler_started():
     """Idempotent call – safe on every Streamlit rerun."""
+    # Scheduler is optional - returns None if not available
     return _init_scheduler()
