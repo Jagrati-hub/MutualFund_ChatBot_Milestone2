@@ -884,6 +884,7 @@ def _query_fund_attribute(fund_name: str, attribute: str, config: RAGConfig) -> 
     Returns attribute value or "Not available".
     Uses caching to avoid redundant API calls.
     Tries multiple query variations to find the data.
+    OPTIMIZED: Only tries first 2 variations for faster response.
     """
     # Check cache first
     cached_value = _get_cached_attribute(fund_name, attribute)
@@ -893,13 +894,10 @@ def _query_fund_attribute(fund_name: str, attribute: str, config: RAGConfig) -> 
     # Construct specific query for the fund's attribute
     attr_display = attribute.replace("_", " ").title()
     
-    # Try multiple query variations
+    # Try only first 2 query variations for faster response
     query_variations = [
         f"What is the {attr_display} of {fund_name}?",
         f"{fund_name} {attr_display}",
-        f"{attr_display} for {fund_name}",
-        f"Tell me the {attr_display} of {fund_name}",
-        f"{fund_name} current {attr_display}",
     ]
     
     try:
@@ -1049,18 +1047,20 @@ def _handle_category_attribute_query(query: str, config: Optional[RAGConfig] = N
     attr_display = attribute.replace("_", " ").title()
     
     # Use ThreadPoolExecutor to query all funds concurrently
-    with ThreadPoolExecutor(max_workers=min(10, len(funds))) as executor:
+    # Reduced workers for faster response time (3-5 workers instead of 10)
+    max_workers = min(3, len(funds))  # Reduced from 10 to 3 for faster response
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all queries
         future_to_fund = {
             executor.submit(_query_fund_attribute, fund, attribute, config): fund 
             for fund in funds
         }
         
-        # Collect results as they complete
-        for future in as_completed(future_to_fund):
+        # Collect results as they complete with timeout
+        for future in as_completed(future_to_fund, timeout=15):  # 15 second timeout
             fund = future_to_fund[future]
             try:
-                attr_value = future.result()
+                attr_value = future.result(timeout=10)  # 10 second timeout per fund
                 results[fund] = attr_value
             except Exception as e:
                 logger.error(f"Error querying {fund}: {e}")
