@@ -311,6 +311,17 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     max-width: 100% !important;
     width: 100% !important;
 }
+
+.stChatInput {
+    border: 2px solid #00d09c !important;
+    border-radius: 100px !important;
+}
+
+.stChatInput input {
+    border: 2px solid #00d09c !important;
+    border-radius: 100px !important;
+}
+
 [data-testid="stChatInput"]:focus-within {
     border-color: #00b386 !important;
     box-shadow: 0 12px 32px rgba(0,208,156,0.25) !important;
