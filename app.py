@@ -11,8 +11,11 @@ from datetime import datetime
 from typing import Any, Dict
 
 # Add phase directories to Python path FIRST
+# Insert in reverse order so phase-3-retrieval is checked first
 _root = Path(__file__).parent
 sys.path.insert(0, str(_root / "phases/phase-4-orchestration"))
+sys.path.insert(0, str(_root / "phases/phase-1-collection"))
+sys.path.insert(0, str(_root / "phases/phase-2-processing"))
 sys.path.insert(0, str(_root / "phases/phase-3-retrieval"))
 
 import streamlit as st
@@ -32,12 +35,19 @@ st.set_page_config(
 
 # Now import our modules
 try:
-    from src.scheduler import start_scheduler_once, run_pipeline_once
     from src import rag_engine
-    from src.shared import SCOPE_FUNDS_BY_CATEGORY, SCOPE_FUNDS, ensure_scheduler_started
+    from src.shared import SCOPE_FUNDS_BY_CATEGORY, SCOPE_FUNDS
 except ImportError as e:
     st.error(f"Failed to import modules: {e}")
     st.stop()
+
+# Scheduler is optional - only initialize if available
+try:
+    from src.shared import ensure_scheduler_started
+except ImportError:
+    def ensure_scheduler_started():
+        """Fallback if scheduler is not available."""
+        pass
 
 # ── constants ──────────────────────────────────────────────────────────────────
 EXAMPLE_QUERIES: list[str] = [
