@@ -37,6 +37,11 @@ st.set_page_config(
     page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
+    menu_items={
+        "Get Help": "https://groww.in",
+        "Report a bug": "https://groww.in/support",
+        "About": "Groww Mutual Fund FAQ Assistant"
+    }
 )
 
 from src.scheduler import start_scheduler_once, run_pipeline_once
@@ -78,30 +83,28 @@ CUSTOM_CSS = """
 /* ── Global reset ── */
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
-    color: #262c3a !important; /* Unified dark text for all elements */
+    color: #262c3a !important;
 }
 
-/* ── App background (Clean Groww-style) ── */
+/* ── App background (Premium Groww style) ── */
 .stApp {
-    background-color: #f7f9fc; /* Slightly deeper than pure white */
-    background-image: radial-gradient(#d1d9e6 0.5px, transparent 0.5px);
-    background-size: 20px 20px; /* Subtle dot pattern to reduce "flat white" look */
+    background: linear-gradient(135deg, #f7f9fc 0%, #f0f5fa 100%);
 }
 
 /* ── Main container ── */
 .block-container {
     padding-top: 2rem !important;
     padding-bottom: 3rem !important;
-    max-width: 850px;
+    max-width: 900px;
 }
 
-/* ── Header hero area (Groww Mint Gradient) ── */
+/* ── Header hero area (Groww Mint Gradient - Premium) ── */
 .hero-header {
-    background: linear-gradient(135deg, #00d09c 0%, #00b386 100%);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 10px 30px rgba(0,208,156,0.15);
+    background: linear-gradient(135deg, #00d09c 0%, #00b386 50%, #009970 100%);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 20px 50px rgba(0,208,156,0.2);
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -113,100 +116,118 @@ html, body, [class*="css"] {
     left: -10%;
     width: 50%;
     height: 200%;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.1);
     transform: rotate(25deg);
 }
+.hero-header::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    right: -20%;
+    width: 60%;
+    height: 150%;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
 .hero-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #ffffff !important; /* Keep white on green header */
-    margin: 0 0 0.5rem 0;
-    letter-spacing: -0.02em;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    margin: 0 0 0.8rem 0;
+    letter-spacing: -0.03em;
+    position: relative;
+    z-index: 1;
 }
 .hero-subtitle {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.9) !important;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.95) !important;
     margin: 0;
     font-weight: 400;
+    position: relative;
+    z-index: 1;
 }
 
 /* ── Scope disclaimer pill ── */
 .scope-pill {
     display: inline-block;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.25);
+    border: 1.5px solid rgba(255,255,255,0.4);
     border-radius: 100px;
-    padding: 0.4rem 1.2rem;
-    font-size: 0.8rem;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
     color: #ffffff !important;
-    margin-top: 1.2rem;
-    backdrop-filter: blur(4px);
-    font-weight: 500;
+    margin-top: 1.5rem;
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 /* ── Section labels ── */
 .section-label {
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 0.8rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #5c6a8b;
-    margin-bottom: 0.8rem;
+    letter-spacing: 0.08em;
+    color: #00d09c;
+    margin-bottom: 1rem;
     padding-left: 0.4rem;
 }
 
 /* ── Example question buttons ── */
 div[data-testid="stHorizontalBlock"] .stButton > button {
     background: #ffffff;
-    border: 1px solid #d1dae6;
-    border-radius: 100px;
+    border: 2px solid #e5eef5;
+    border-radius: 16px;
     color: #262c3a !important;
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    padding: 1rem 1.5rem;
     width: 100%;
     text-align: center;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     height: auto;
-    min-height: 3.5rem;
+    min-height: 4rem;
+    font-weight: 500;
 }
 div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     background: #f0fffb;
     border-color: #00d09c;
     color: #00d09c !important;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,208,156,0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,208,156,0.2);
 }
 
 /* ── Chat messages ── */
 [data-testid="stChatMessage"] {
     border-radius: 20px !important;
     margin-bottom: 1.5rem !important;
-    padding: 1.2rem 1.5rem !important;
+    padding: 1.5rem !important;
     border: none !important;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06) !important;
 }
 
 /* User bubble (Soft Blue) */
 [data-testid="stChatMessage"][data-testid*="user"],
 .stChatMessage:has([data-testid="chatAvatarIcon-user"]) {
-    background: #e9efff !important;
-    border: 1px solid #c8d7ff !important;
-    margin-left: 10% !important;
+    background: linear-gradient(135deg, #e9efff 0%, #f0f5ff 100%) !important;
+    border: 1px solid #d1dae6 !important;
+    margin-left: 5% !important;
 }
 
 /* Assistant bubble (Soft Mint) */
 [data-testid="stChatMessage"][data-testid*="assistant"],
 .stChatMessage:has([data-testid="chatAvatarIcon-assistant"]) {
-    background: #e6f9f4 !important;
+    background: linear-gradient(135deg, #e6f9f4 0%, #f0fdf9 100%) !important;
     border: 1px solid #b7e9dc !important;
-    margin-right: 10% !important;
+    margin-right: 5% !important;
 }
 
 /* ── Text within bubbles ── */
 [data-testid="stChatMessage"] p, [data-testid="stChatMessage"] div {
     color: #1a202c !important;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 /* ── Citation & Recency Bar ── */
@@ -214,42 +235,44 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 1.2rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(0, 208, 156, 0.15);
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 2px solid rgba(0, 208, 156, 0.2);
     align-items: center;
 }
 
 .citation-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    background: #00d09c;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #00d09c 0%, #00b386 100%);
     color: #ffffff !important;
     border-radius: 100px;
-    padding: 0.4rem 1.2rem;
-    font-size: 0.9rem !important;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem !important;
     text-decoration: none !important;
-    transition: all 0.2s ease;
-    font-weight: 600;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(0,208,156,0.2);
 }
 .citation-link:hover {
-    background: #00b386;
-    box-shadow: 0 4px 12px rgba(0,208,156,0.25);
+    background: linear-gradient(135deg, #00b386 0%, #009970 100%);
+    box-shadow: 0 8px 24px rgba(0,208,156,0.3);
+    transform: translateY(-2px);
 }
 
 .data-recency {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #4a5568 !important;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
 }
 
 /* ── Message timestamps ── */
 .message-timestamp {
-    font-size: 0.7rem;
-    color: #718096 !important;
-    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #a0aec0 !important;
+    margin-top: 0.8rem;
     display: block;
     text-align: right;
 }
@@ -257,41 +280,90 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
     background-color: #ffffff !important;
-    border-right: 1px solid #eef2f6 !important;
+    border-right: 2px solid #f0f5fa !important;
 }
 [data-testid="stSidebar"] .stButton > button {
-    background: #00d09c;
+    background: linear-gradient(135deg, #00d09c 0%, #00b386 100%);
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     color: #ffffff;
-    font-weight: 600;
-    padding: 0.75rem 1rem;
-    transition: all 0.2s ease;
+    font-weight: 700;
+    padding: 0.9rem 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 16px rgba(0,208,156,0.15);
 }
 [data-testid="stSidebar"] .stButton > button:hover {
-    background: #00b386;
-    box-shadow: 0 4px 12px rgba(0,208,156,0.2);
+    background: linear-gradient(135deg, #00b386 0%, #009970 100%);
+    box-shadow: 0 8px 24px rgba(0,208,156,0.25);
+    transform: translateY(-2px);
 }
 
 /* ── Chat input (Centered & Floating feel) ── */
 [data-testid="stChatInput"] {
-    border: 1px solid #e5eef5 !important;
+    border: 2px solid #00d09c !important;
     border-radius: 100px !important;
     background: #ffffff !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06) !important;
+    box-shadow: 0 8px 24px rgba(0,208,156,0.12) !important;
+    padding: 0.8rem 1.5rem !important;
+    margin: 1.5rem auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+[data-testid="stChatInput"]:focus-within {
+    border-color: #00b386 !important;
+    box-shadow: 0 12px 32px rgba(0,208,156,0.25) !important;
+    outline: none !important;
+}
+
+/* ── Chat input text styling ── */
+[data-testid="stChatInput"] textarea {
+    font-size: 1rem !important;
+    color: #262c3a !important;
+    font-family: 'Inter', sans-serif !important;
+    padding: 0.5rem 0 !important;
+}
+
+[data-testid="stChatInput"] textarea::placeholder {
+    color: #a0aec0 !important;
+    font-weight: 400 !important;
+}
+
+/* ── Chat input container alignment ── */
+.stChatInput {
+    margin: 1.5rem 0 !important;
+    padding: 0 1rem !important;
+}
+
+/* ── Chat input wrapper ── */
+[data-testid="stChatInputContainer"] {
+    margin: 1.5rem auto !important;
+    max-width: 100% !important;
+    padding: 0 !important;
 }
 
 /* ── Admin Status Dots ── */
 .status-dot {
-    height: 10px;
-    width: 10px;
+    height: 12px;
+    width: 12px;
     background-color: #00d09c;
     border-radius: 50%;
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 8px;
+    box-shadow: 0 0 8px rgba(0,208,156,0.4);
 }
 .status-dot.off {
     background-color: #ff4d4d;
+    box-shadow: 0 0 8px rgba(255,77,77,0.4);
+}
+
+/* ── Refusal box ── */
+.refusal-box {
+    background: linear-gradient(135deg, #ffe6e6 0%, #fff0f0 100%);
+    border-left: 4px solid #ff4d4d;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    color: #c53030 !important;
+    font-weight: 500;
 }
 
 /* ── Hide Streamlit defaults ── */
@@ -490,7 +562,7 @@ def render_clear_button() -> None:
 
 def render_sidebar() -> None:
     with st.sidebar:
-        st.markdown('<p class="hero-title" style="font-size:1.5rem; color:#44475b; text-align:left;">🛠 Admin</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title" style="font-size:1.5rem; color:#00d09c; text-align:left;">🛠 Admin</p>', unsafe_allow_html=True)
         st.markdown("---")
         
         # Ensure scheduler is started and get instance
@@ -511,9 +583,15 @@ def render_sidebar() -> None:
             st.markdown('<div style="display:flex; align-items:center;"><span class="status-dot off"></span><span style="color:#ff4d4d; font-weight:600;">Inactive</span></div>', unsafe_allow_html=True)
 
         st.markdown("---")
-        st.subheader("Manual Controls")
+        st.subheader("Quick Actions")
         
-        if st.button("🚀 Run Data Pipeline", use_container_width=True):
+        # Admin Dashboard Link
+        if st.button("📊 Admin Dashboard", use_container_width=True):
+            st.query_params["page"] = "admin"
+            st.rerun()
+        
+        # Run Pipeline Button
+        if st.button("🚀 Run Pipeline", use_container_width=True):
             with st.status("Running scraper + ingestor...", expanded=True) as status:
                 try:
                     from src.scheduler import run_pipeline_once
@@ -522,8 +600,6 @@ def render_sidebar() -> None:
                     st.write("Ingestion complete! Refreshing...")
                     status.update(label="Pipeline successfully completed!", state="complete", expanded=False)
                     st.toast("Data successfully updated!", icon="✅")
-                    # No longer need to rerun, but might help refresh cached artifacts
-                    # st.rerun()
                 except Exception as e:
                     status.update(label=f"Pipeline failed: {e}", state="error")
                     st.error(f"Error: {e}")
@@ -534,15 +610,18 @@ def render_sidebar() -> None:
 
 # ── Main entry point ───────────────────────────────────────────────────────────
 def main() -> None:
-    # We still ensure the scheduler is started in the background
+    # Ensure scheduler is started in the background
     ensure_scheduler_started()
     
-    render_sidebar()
+    # Render the chat interface
     render_hero()
     render_clear_button()
     st.markdown("---")
     render_chat_ui()
 
 
+
+
 if __name__ == "__main__":
     main()
+
