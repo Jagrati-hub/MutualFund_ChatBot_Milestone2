@@ -516,7 +516,7 @@ def main() -> None:
 if __name__ == "__main__":
     # Show initial loading message
     if 'app_initialized' not in st.session_state:
-        with st.spinner("🚀 Loading Groww MF Assistant... Please wait..."):
+        with st.spinner("Loading Groww MF Assistant... Please wait..."):
             import time
             time.sleep(0.5)  # Brief pause to show spinner
             st.session_state.app_initialized = True

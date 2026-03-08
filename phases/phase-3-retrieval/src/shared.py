@@ -7,8 +7,6 @@ import streamlit as st
 _current_dir = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(_current_dir / "phase-4-orchestration"))
 
-from src.scheduler import start_scheduler_once
-
 # ── constants ──────────────────────────────────────────────────────────────────
 # All 32 Groww AMC funds, organised by category
 SCOPE_FUNDS_BY_CATEGORY: dict[str, list[str]] = {
@@ -62,6 +60,7 @@ SCOPE_FUNDS: list[str] = [
 @st.cache_resource
 def _init_scheduler():
     """Start the APScheduler background job exactly once per process."""
+    from src.scheduler import start_scheduler_once
     return start_scheduler_once()
 
 def ensure_scheduler_started():
