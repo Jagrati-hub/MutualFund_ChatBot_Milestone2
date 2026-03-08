@@ -17,3 +17,4 @@ streamlit
 python-dotenv
 google-generativeai
 pydantic
+tomli

@@ -22,10 +22,27 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from dotenv import load_dotenv
 
-# Load .env from phase-0-foundation
+# Load .env from phase-0-foundation (for local development)
 _PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 _ENV_PATH = _PROJECT_ROOT / "phases/phase-0-foundation/.env"
-load_dotenv(_ENV_PATH)
+if _ENV_PATH.exists():
+    load_dotenv(_ENV_PATH)
+
+# Also try loading from .streamlit/secrets.toml for Streamlit Cloud
+_SECRETS_PATH = _PROJECT_ROOT / ".streamlit/secrets.toml"
+if _SECRETS_PATH.exists():
+    try:
+        import tomllib
+    except ImportError:
+        import tomli as tomllib
+    try:
+        with open(_SECRETS_PATH, 'rb') as f:
+            secrets = tomllib.load(f)
+            for key, value in secrets.items():
+                if key not in os.environ:
+                    os.environ[key] = str(value)
+    except Exception as e:
+        logging.warning(f"Could not load secrets.toml: {e}")
 
 from src.shared import SCOPE_FUNDS_BY_CATEGORY
 
