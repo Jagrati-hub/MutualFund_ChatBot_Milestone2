@@ -7,12 +7,12 @@
 **Goal**: A modular, AI-powered FAQ assistant for Groww Mutual Fund schemes that:
 - Scrapes official Groww pages (stealth Playwright) on a daily schedule.
 - Ingests HTML/PDF content into a Chroma-based vector store.
-- Serves a Streamlit chat interface backed by a guarded RAG engine.
+- Serves a multi-page Streamlit chat interface backed by a guarded RAG engine.
 - Strictly follows the facts-only rules from `system_prompt.md`.
 
 Top-level flow:
 - **Daily pipeline**: `scheduler.py` → `scraper.py` → `ingest.py` → ChromaDB
-- **User interaction**: Streamlit `app.py` → `rag_engine.py` → ChromaDB → LLM answer with citation.
+- **User interaction**: Streamlit `app.py` (main) + `pages/admin.py` (admin) → `rag_engine.py` → ChromaDB → LLM answer with citation.
 
 ---
 
@@ -21,6 +21,7 @@ Top-level flow:
 - `architecture.md` – This blueprint.
 - `requirements.txt` – Python dependencies (Playwright, APScheduler, LangChain, Chroma, Streamlit, etc.).
 - `system_prompt.md` – Facts-only system rules for the assistant.
+- `.streamlit/config.toml` – Streamlit theme configuration (Groww colors).
 - `config/`
   - `sources.json` – List of official Groww URLs (AMC overview + all schemes).
 - `data/`
@@ -31,7 +32,9 @@ Top-level flow:
   - `ingest.py` – LangChain ingestion + chunking + Chroma upsert.
   - `scheduler.py` – APScheduler orchestration (24h pipeline).
   - `rag_engine.py` – Retrieval engine, guardrails, and citation handling.
-- `app.py` – Streamlit chat frontend + background scheduler bootstrap.
+  - `shared.py` – Shared utilities and constants.
+- `app.py` – Streamlit main chat frontend + background scheduler bootstrap.
+- `pages/admin.py` – Streamlit admin dashboard page.
 
 ---
 
@@ -77,13 +80,16 @@ Top-level flow:
   - **Guardrails**:
     - `validate_query(query)` detects:
       - PII requests (PAN, phone, email, account details).
-      - Advice-oriented questions (“buy/sell”, “best fund”, predictions).
+      - Advice-oriented questions ("buy/sell", "best fund", predictions).
     - If blocked, the caller returns the **default refusal** from `system_prompt.md`.
   - **RAG chain**:
     - Load system prompt from `system_prompt.md`.
     - Connect to Chroma (`chroma/`, `groww_mf_faq`).
     - Retrieve top-k chunks for the query.
     - Call LLM with system prompt + retrieved context.
+  - **Answer Enhancement**:
+    - `format_answer()` removes all web links from answer text for cleaner presentation.
+    - `_query_fund_attribute()` uses multiple query variations to ensure NAV and other attributes are retrieved for all funds.
   - **Citation handler**:
     - `extract_citation_url(retrieved_docs)` picks one `source_url` (top document).
     - `format_answer_with_citation(answer_text, citation_url)` enforces:
@@ -108,22 +114,32 @@ Top-level flow:
     - Idempotent start of scheduler and job registration.
     - Safe to call multiple times (e.g., on Streamlit reruns).
 
-#### Phase 5 – Frontend (Streamlit App)
-- **Module**: `app.py`
+#### Phase 5 – Frontend (Streamlit App - Multi-Page)
+- **Modules**: `app.py` (main), `pages/admin.py` (admin dashboard)
 - **Inputs**: User queries, results from `rag_engine.answer`.
-- **Outputs**: Web UI, chat experience, optional manual pipeline trigger.
+- **Outputs**: Web UI, chat experience, admin controls.
 - **Key responsibilities**:
-  - On app load:
-    - `ensure_scheduler_started()` → `start_scheduler_once()` (scheduler only once).
-  - Layout:
-    - Title, description, and scope disclaimer.
-    - 3 example question buttons (prefilled prompts).
-    - Chat history and input box.
-  - Query handling:
-    - `handle_query(user_query)`:
-      - Calls `rag_engine.validate_query()` / `answer()`.
-      - If blocked, display default refusal from `system_prompt.md`.
-      - If allowed, display answer + “Source” link.
+  - **Main Page (`app.py`)**:
+    - On app load: `ensure_scheduler_started()` → `start_scheduler_once()` (scheduler only once).
+    - Layout:
+      - Hero section with Groww theme (mint green #00d09c gradient).
+      - 3 example question buttons (prefilled prompts).
+      - Chat history with improved styling.
+      - Enhanced chat input textbox with mint green border and better alignment.
+      - ⚙️ button in top-right corner for admin access.
+    - Query handling:
+      - `handle_query(user_query)`:
+        - Calls `rag_engine.validate_query()` / `answer()`.
+        - If blocked, display default refusal from `system_prompt.md`.
+        - If allowed, display answer + "Source" link.
+        - Web links are automatically removed from answer text.
+  - **Admin Page (`pages/admin.py`)**:
+    - Dark sidebar with admin controls.
+    - System status monitoring (scheduler status, next update time).
+    - Pipeline controls (Run Now, Clear Cache).
+    - Cache statistics and fund statistics.
+    - Activity logs and recent updates.
+    - "← Back to Chat" button for navigation.
 
 ---
 
@@ -171,6 +187,7 @@ Top-level flow:
   - **Zero-Link Policy**: No links if unrelated or no data retrieved.
   - **Single-Link Policy**: Exactly one URL per response.
   - **No Double Links**: Never use both "Source: URL" text and a UI button.
+  - **Web Link Removal**: All inline web links are automatically removed from answer text.
 
 - **NEGATIVE CONSTRAINTS**:
   - Do NOT start with "Based on the provided context..." or "I have identified...".
@@ -187,11 +204,17 @@ Top-level flow:
 
 - **Citations**:
   - Single `source_url` per answer, always present.
-  - Enables transparent trace-back to Groww’s official pages.
+  - Enables transparent trace-back to Groww's official pages.
 
 - **Idempotent scheduler**:
   - Background scheduler is started once and reused across Streamlit reruns.
   - Daily job runs the end-to-end scrape → ingest pipeline.
+
+- **Performance Optimization**:
+  - Reduced parallel workers (10 → 3) for faster response times.
+  - Multiple query variations for NAV and attribute retrieval.
+  - Overall timeout: 15 seconds, per-fund timeout: 10 seconds.
+  - Expected response time: 8-12 seconds for category queries.
 
 ---
 
@@ -204,4 +227,3 @@ Top-level flow:
   - `chromadb`, `pypdf`.
 - **Frontend**: `streamlit`.
 - **Utilities**: `python-dotenv` for configuration/env management.
-

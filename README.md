@@ -46,18 +46,18 @@ streamlit run app.py
 
 The assistant supports exactly **32 funds** across 4 categories:
 
-### 1. 📈 Equity (20 Funds)
+### 1. 📈 Equity (21 Funds)
 - Groww Large Cap Fund, Multicap, Small Cap, Value Fund, ELSS Tax Saver.
 - Index Funds: Nifty Total Market, Smallcap 250, Non-Cyclical Consumer, Next 50, Midcap 150.
 - ETFs & FoFs: EV & New Age Automotive, India Defence, 200 ETF, 500 Momentum 50, India Railways, BSE Power, India Internet, PSE ETF, Capital Markets.
+- Groww Nifty India Railways PSU Index Fund.
 
 ### 2. 🏦 Debt (6 Funds)
 - Groww Liquid Fund, Overnight Fund, Short Duration, Dynamic Bond, Gilt Fund.
 - Groww Nifty 1D Rate Liquid ETF.
 
-### 3. ⚖️ Hybrid (4 Funds)
+### 3. ⚖️ Hybrid (3 Funds)
 - Groww Aggressive Hybrid Fund, Multi Asset Allocation, Arbitrage Fund.
-- Groww Multi Asset Omni FoF.
 
 ### 4. 🪙 Commodities (2 Funds)
 - Groww Gold ETF FoF.
@@ -68,11 +68,16 @@ The assistant supports exactly **32 funds** across 4 categories:
 ## 🛡️ Key Features & Guardrails
 
 - **Multi-Page Architecture**: 
-  - **Home**: Clean, user-facing chatbot interface for mutual fund queries.
+  - **Home**: Clean, user-facing chatbot interface with Groww premium theme (mint green #00d09c).
   - **Admin Panel**: Dedicated `/admin` page for scheduler management and pipeline control.
+  - **Improved UI**: Enhanced chat input textbox with mint green border and better alignment.
 - **Protected Admin Access**: The Admin Panel is secured with a login gate.
-  - **URL**: Navigate to `Admin` in the sidebar.
+  - **URL**: Click the ⚙️ button in the top-right corner or navigate to `?page=admin`.
   - **Credentials**: Username: `admin` | Password: `admin`
+- **Enhanced Answer Quality**:
+  - **Web Link Removal**: All inline web links are automatically removed from answers for cleaner presentation.
+  - **NAV Retrieval**: Multiple query variations ensure NAV data is retrieved for all funds, including debt funds.
+  - **Response Time**: Optimized for speed with reduced parallel workers and query variations (8-12 seconds for category queries).
 - **Stable UI**: Always-visible sample questions and smooth autoscrolling.
 - **Strict Citation**: Every factual answer includes a direct hyperlink and a "Source" citation line.
 - **Tiered Refusals**:
