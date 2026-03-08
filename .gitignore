@@ -10,3 +10,4 @@ chroma/
 tmp/
 data/raw/
 *.log
+.cache/

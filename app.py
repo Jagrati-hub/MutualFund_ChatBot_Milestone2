@@ -26,6 +26,7 @@ from __future__ import annotations
 #     • A status / log area.
 
 import time
+from datetime import datetime
 from typing import Any, Dict
 
 import streamlit as st
@@ -77,50 +78,54 @@ CUSTOM_CSS = """
 /* ── Global reset ── */
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
+    color: #262c3a !important; /* Unified dark text for all elements */
 }
 
-/* ── App background ── */
+/* ── App background (Clean Groww-style) ── */
 .stApp {
-    background: linear-gradient(145deg, #0f1117 0%, #1a1d2e 50%, #0d1421 100%);
-    min-height: 100vh;
+    background-color: #f7f9fc; /* Slightly deeper than pure white */
+    background-image: radial-gradient(#d1d9e6 0.5px, transparent 0.5px);
+    background-size: 20px 20px; /* Subtle dot pattern to reduce "flat white" look */
 }
 
 /* ── Main container ── */
 .block-container {
-    padding-top: 1.5rem !important;
-    padding-bottom: 2rem !important;
-    max-width: 900px;
+    padding-top: 2rem !important;
+    padding-bottom: 3rem !important;
+    max-width: 850px;
 }
 
-/* ── Header hero area ── */
+/* ── Header hero area (Groww Mint Gradient) ── */
 .hero-header {
-    background: linear-gradient(135deg, #00c896 0%, #00a8e8 50%, #7c3aed 100%);
-    border-radius: 16px;
-    padding: 1.8rem 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 32px rgba(0,200,150,0.25);
+    background: linear-gradient(135deg, #00d09c 0%, #00b386 100%);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,208,156,0.15);
     position: relative;
     overflow: hidden;
+    text-align: center;
 }
 .hero-header::before {
     content: "";
     position: absolute;
     top: -50%;
-    left: -20%;
-    width: 60%;
+    left: -10%;
+    width: 50%;
     height: 200%;
-    background: rgba(255,255,255,0.05);
-    transform: rotate(30deg);
+    background: rgba(255,255,255,0.08);
+    transform: rotate(25deg);
 }
 .hero-title {
-    font-size: 1.9rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 0.3rem 0;
+    color: #ffffff !important; /* Keep white on green header */
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.02em;
 }
 .hero-subtitle {
-    font-size: 0.95rem;
-    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9) !important;
     margin: 0;
     font-weight: 400;
 }
@@ -128,144 +133,175 @@ html, body, [class*="css"] {
 /* ── Scope disclaimer pill ── */
 .scope-pill {
     display: inline-block;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.2);
     border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 50px;
-    padding: 0.3rem 1rem;
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.9);
-    margin-top: 0.8rem;
-    backdrop-filter: blur(8px);
+    border-radius: 100px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.8rem;
+    color: #ffffff !important;
+    margin-top: 1.2rem;
+    backdrop-filter: blur(4px);
+    font-weight: 500;
 }
 
 /* ── Section labels ── */
 .section-label {
-    font-size: 0.82rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #7c8db5;
-    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+    color: #5c6a8b;
+    margin-bottom: 0.8rem;
+    padding-left: 0.4rem;
 }
 
 /* ── Example question buttons ── */
 div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 12px;
-    color: #c8d1e8;
-    font-size: 0.84rem;
-    padding: 0.7rem 1rem;
+    background: #ffffff;
+    border: 1px solid #d1dae6;
+    border-radius: 100px;
+    color: #262c3a !important;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
     width: 100%;
-    text-align: left;
-    transition: all 0.25s ease;
-    line-height: 1.4;
-    white-space: normal;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     height: auto;
+    min-height: 3.5rem;
 }
 div[data-testid="stHorizontalBlock"] .stButton > button:hover {
-    background: rgba(0,200,150,0.1);
-    border-color: rgba(0,200,150,0.45);
-    color: #00e8b3;
+    background: #f0fffb;
+    border-color: #00d09c;
+    color: #00d09c !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,200,150,0.2);
+    box-shadow: 0 6px 15px rgba(0,208,156,0.15);
 }
 
 /* ── Chat messages ── */
 [data-testid="stChatMessage"] {
-    border-radius: 14px !important;
-    margin-bottom: 0.6rem !important;
-    padding: 0.8rem 1.2rem !important;
-    border: 1px solid rgba(255,255,255,0.06) !important;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important;
+    border-radius: 20px !important;
+    margin-bottom: 1.5rem !important;
+    padding: 1.2rem 1.5rem !important;
+    border: none !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05) !important;
 }
 
-/* user bubble */
+/* User bubble (Soft Blue) */
 [data-testid="stChatMessage"][data-testid*="user"],
 .stChatMessage:has([data-testid="chatAvatarIcon-user"]) {
-    background: linear-gradient(135deg, rgba(0,168,232,0.12), rgba(124,58,237,0.08)) !important;
+    background: #e9efff !important;
+    border: 1px solid #c8d7ff !important;
+    margin-left: 10% !important;
 }
 
-/* assistant bubble */
+/* Assistant bubble (Soft Mint) */
 [data-testid="stChatMessage"][data-testid*="assistant"],
 .stChatMessage:has([data-testid="chatAvatarIcon-assistant"]) {
-    background: rgba(255,255,255,0.03) !important;
+    background: #e6f9f4 !important;
+    border: 1px solid #b7e9dc !important;
+    margin-right: 10% !important;
 }
 
-/* ── Citation link ── */
+/* ── Text within bubbles ── */
+[data-testid="stChatMessage"] p, [data-testid="stChatMessage"] div {
+    color: #1a202c !important;
+    line-height: 1.6;
+}
+
+/* ── Citation & Recency Bar ── */
+.assistant-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 208, 156, 0.15);
+    align-items: center;
+}
+
 .citation-link {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: rgba(0,200,150,0.1);
-    border: 1px solid rgba(0,200,150,0.35);
-    border-radius: 8px;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.82rem;
-    color: #00e8b3 !important;
+    background: #00d09c;
+    color: #ffffff !important;
+    border-radius: 100px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9rem !important;
     text-decoration: none !important;
     transition: all 0.2s ease;
-    margin-top: 0.4rem;
+    font-weight: 600;
 }
 .citation-link:hover {
-    background: rgba(0,200,150,0.2);
-    border-color: rgba(0,200,150,0.6);
+    background: #00b386;
+    box-shadow: 0 4px 12px rgba(0,208,156,0.25);
 }
 
-/* ── Blocked / refusal box ── */
-.refusal-box {
-    background: rgba(255,100,80,0.08);
-    border: 1px solid rgba(255,100,80,0.3);
-    border-radius: 10px;
-    padding: 0.8rem 1rem;
-    color: #ffb3a7;
-    font-size: 0.9rem;
+.data-recency {
+    font-size: 0.75rem;
+    color: #4a5568 !important;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ── Message timestamps ── */
+.message-timestamp {
+    font-size: 0.7rem;
+    color: #718096 !important;
+    margin-top: 0.5rem;
+    display: block;
+    text-align: right;
 }
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
-    background: rgba(15, 17, 30, 0.95) !important;
-    border-right: 1px solid rgba(255,255,255,0.07) !important;
+    background-color: #ffffff !important;
+    border-right: 1px solid #eef2f6 !important;
 }
 [data-testid="stSidebar"] .stButton > button {
-    background: linear-gradient(135deg, #00c896, #00a8e8);
+    background: #00d09c;
     border: none;
-    border-radius: 10px;
-    color: #0a0e1a;
+    border-radius: 12px;
+    color: #ffffff;
     font-weight: 600;
-    padding: 0.6rem 1rem;
-    width: 100%;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
 }
 [data-testid="stSidebar"] .stButton > button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(0,200,150,0.35);
+    background: #00b386;
+    box-shadow: 0 4px 12px rgba(0,208,156,0.2);
 }
 
-/* ── Chat input ── */
+/* ── Chat input (Centered & Floating feel) ── */
 [data-testid="stChatInput"] {
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    border-radius: 14px !important;
-    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid #e5eef5 !important;
+    border-radius: 100px !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06) !important;
 }
 
-/* ── Dividers ── */
-hr {
-    border-color: rgba(255,255,255,0.07) !important;
+/* ── Admin Status Dots ── */
+.status-dot {
+    height: 10px;
+    width: 10px;
+    background-color: #00d09c;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+.status-dot.off {
+    background-color: #ff4d4d;
 }
 
-/* ── Spinner ── */
-.stSpinner > div {
-    border-top-color: #00c896 !important;
-}
+/* ── Hide Streamlit defaults ── */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
 </style>
 """
 
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
-
-
-# ── Custom CSS ─────────────────────────────────────────────────────────────────
 
 
 # ── Query handler ──────────────────────────────────────────────────────────────
@@ -303,11 +339,11 @@ def render_hero() -> None:
     st.markdown(
         f"""
         <div class="hero-header">
-            <p class="hero-title">📈 Groww Mutual Fund FAQ Assistant</p>
+            <p class="hero-title">📈 Groww Mutual Fund FAQ</p>
             <p class="hero-subtitle">
-                Facts-only answers about Groww Mutual Fund schemes — no investment advice, ever.
+                Official support for Groww AMC schemes. All facts, no financial advice.
             </p>
-            <div class="scope-pill">🔍 Scope: {len(SCOPE_FUNDS)} Groww AMC funds across Equity · Debt · Hybrid · Commodities</div>
+            <div class="scope-pill">🔍 Real-time access to {len(SCOPE_FUNDS)} mutual fund schemes</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -351,7 +387,8 @@ def render_chat_ui() -> None:
 
     # ── Replay chat history ───────────────────────────────────────────────
     for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
+        avatar = "👤" if msg["role"] == "user" else "🤖"
+        with st.chat_message(msg["role"], avatar=avatar):
             if msg.get("blocked"):
                 st.markdown(
                     f'<div class="refusal-box">🚫 {msg["content"]}</div>',
@@ -359,12 +396,24 @@ def render_chat_ui() -> None:
                 )
             else:
                 st.markdown(msg["content"])
-            if msg.get("citation_url"):
-                st.markdown(
-                    f'<a class="citation-link" href="{msg["citation_url"]}" target="_blank">'
-                    f'🔗 Source</a>',
-                    unsafe_allow_html=True,
-                )
+            
+            # Show citation and recency in a row if possible
+            if not msg.get("blocked") and msg["role"] == "assistant":
+                if msg.get("citation_url") or msg.get("last_updated"):
+                    st.markdown('<div class="assistant-footer">', unsafe_allow_html=True)
+                    if msg.get("citation_url"):
+                        st.markdown(
+                            f'<a class="citation-link" href="{msg["citation_url"]}" target="_blank">'
+                            f'🔗 Source</a>',
+                            unsafe_allow_html=True,
+                        )
+                    if msg.get("last_updated"):
+                        st.markdown(f'<p class="data-recency">🗓️ Data as of: {msg["last_updated"]}</p>', unsafe_allow_html=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Show message timestamp at very bottom
+            if msg.get("timestamp"):
+                st.markdown(f'<span class="message-timestamp">Sent at {msg["timestamp"]}</span>', unsafe_allow_html=True)
 
     # ── Chat input ────────────────────────────────────────────────────────
     if prompt := st.chat_input("Ask about any Groww Mutual Fund scheme…"):
@@ -372,15 +421,27 @@ def render_chat_ui() -> None:
 
     # ── Process query ─────────────────────────────────────────────────────
     if user_input:
+        from datetime import datetime
+        curr_time = datetime.now().strftime("%H:%M")
+        
         # Show user message immediately
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar="👤"):
             st.markdown(user_input)
-        st.session_state.messages.append({"role": "user", "content": user_input, "blocked": False})
+            st.markdown(f'<span class="message-timestamp">Sent at {curr_time}</span>', unsafe_allow_html=True)
+            
+        st.session_state.messages.append({
+            "role": "user", 
+            "content": user_input, 
+            "blocked": False,
+            "timestamp": curr_time
+        })
 
         # Generate and stream assistant response
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar="🤖"):
             with st.spinner("Retrieving facts…"):
                 response = handle_query(user_input)
+            
+            resp_time = datetime.now().strftime("%H:%M")
 
             if response.get("blocked"):
                 st.markdown(
@@ -390,12 +451,21 @@ def render_chat_ui() -> None:
             else:
                 st.markdown(response["answer"])
 
-            if response.get("citation_url"):
-                st.markdown(
-                    f'<a class="citation-link" href="{response["citation_url"]}" target="_blank">'
-                    f'🔗 Source</a>',
-                    unsafe_allow_html=True,
-                )
+            # Footer for assistant message
+            if not response.get("blocked"):
+                if response.get("citation_url") or response.get("last_updated"):
+                    st.markdown('<div class="assistant-footer">', unsafe_allow_html=True)
+                    if response.get("citation_url"):
+                        st.markdown(
+                            f'<a class="citation-link" href="{response["citation_url"]}" target="_blank">'
+                            f'🔗 Source</a>',
+                            unsafe_allow_html=True,
+                        )
+                    if response.get("last_updated"):
+                        st.markdown(f'<p class="data-recency">🗓️ Data as of: {response["last_updated"]}</p>', unsafe_allow_html=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
+            
+            st.markdown(f'<span class="message-timestamp">Sent at {resp_time}</span>', unsafe_allow_html=True)
 
         # Persist to session
         st.session_state.messages.append({
@@ -403,6 +473,8 @@ def render_chat_ui() -> None:
             "content": response["answer"],
             "citation_url": response.get("citation_url"),
             "blocked": response.get("blocked", False),
+            "last_updated": response.get("last_updated"),
+            "timestamp": resp_time
         })
 
 
@@ -416,12 +488,58 @@ def render_clear_button() -> None:
                 st.rerun()
 
 
+def render_sidebar() -> None:
+    with st.sidebar:
+        st.markdown('<p class="hero-title" style="font-size:1.5rem; color:#44475b; text-align:left;">🛠 Admin</p>', unsafe_allow_html=True)
+        st.markdown("---")
+        
+        # Ensure scheduler is started and get instance
+        from src.shared import ensure_scheduler_started
+        scheduler = ensure_scheduler_started()
+        from src.scheduler import SCHEDULER_JOB_ID
+        
+        st.subheader("System Status")
+        # APScheduler uses .running (bool)
+        if hasattr(scheduler, "running") and scheduler.running:
+            st.markdown('<div style="display:flex; align-items:center;"><span class="status-dot"></span><span style="color:#00d09c; font-weight:600;">Active</span></div>', unsafe_allow_html=True)
+            job = scheduler.get_job(SCHEDULER_JOB_ID)
+            if job:
+                next_run = job.next_run_time
+                if next_run:
+                    st.caption(f"Next update: {next_run.strftime('%d %b, %H:%M')}")
+        else:
+            st.markdown('<div style="display:flex; align-items:center;"><span class="status-dot off"></span><span style="color:#ff4d4d; font-weight:600;">Inactive</span></div>', unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.subheader("Manual Controls")
+        
+        if st.button("🚀 Run Data Pipeline", use_container_width=True):
+            with st.status("Running scraper + ingestor...", expanded=True) as status:
+                try:
+                    from src.scheduler import run_pipeline_once
+                    st.write("Fetching latest data from Groww...")
+                    run_pipeline_once()
+                    st.write("Ingestion complete! Refreshing...")
+                    status.update(label="Pipeline successfully completed!", state="complete", expanded=False)
+                    st.toast("Data successfully updated!", icon="✅")
+                    # No longer need to rerun, but might help refresh cached artifacts
+                    # st.rerun()
+                except Exception as e:
+                    status.update(label=f"Pipeline failed: {e}", state="error")
+                    st.error(f"Error: {e}")
+
+        st.markdown("---")
+        st.write("Built with ❤️ for Groww Mutual Fund Investors")
+
+
 # ── Main entry point ───────────────────────────────────────────────────────────
 def main() -> None:
     # We still ensure the scheduler is started in the background
     ensure_scheduler_started()
     
+    render_sidebar()
     render_hero()
+    render_clear_button()
     st.markdown("---")
     render_chat_ui()
 

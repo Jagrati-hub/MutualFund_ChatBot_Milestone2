@@ -2,16 +2,18 @@ from __future__ import annotations
 
 """
 Phase 1 implementation: Stealth scraper for the Groww Mutual Fund FAQ Assistant.
-
-Responsibilities:
-- Load official Groww scheme URLs from `config/sources.json`.
-- Launch a Playwright browser in *stealth mode*.
-- Visit each enabled source URL and capture:
-  - HTML snapshots (later normalized to markdown/text).
-  - Links to downloadable PDFs (factsheets / SID / KIM where available).
-- Write all artifacts for a run into a date-based folder under `data/raw/`.
-- Emit a manifest (JSON) that maps each saved artifact to its `source_url`.
+...
 """
+
+import sys
+import asyncio
+
+if sys.platform == 'win32':
+    try:
+        if not isinstance(asyncio.get_event_loop_policy(), asyncio.WindowsProactorEventLoopPolicy):
+            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+    except Exception:
+        pass
 
 from dataclasses import asdict, dataclass
 from datetime import date, datetime, timezone

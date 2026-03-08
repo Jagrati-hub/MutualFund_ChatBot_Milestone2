@@ -26,6 +26,7 @@ SCOPE_FUNDS_BY_CATEGORY: dict[str, list[str]] = {
         "Groww Nifty India Internet ETF FoF",
         "Groww Nifty PSE ETF FoF",
         "Groww Nifty Capital Markets ETF FoF",
+        "Groww Arbitrage Fund",
     ],
     "🏦 Debt": [
         "Groww Liquid Fund",
@@ -38,7 +39,6 @@ SCOPE_FUNDS_BY_CATEGORY: dict[str, list[str]] = {
     "⚖️ Hybrid": [
         "Groww Aggressive Hybrid Fund",
         "Groww Multi Asset Allocation Fund",
-        "Groww Arbitrage Fund",
         "Groww Multi Asset Omni FoF",
     ],
     "🪙 Commodities": [

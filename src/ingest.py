@@ -122,6 +122,7 @@ def build_documents_from_manifest(manifest: Dict[str, Any], project_root: Path) 
             continue
 
         try:
+            fetched_at = artifact.get("fetched_at", "")
             if content_type == "html":
                 text = _html_to_text(file_path)
             elif content_type == "pdf":
@@ -136,6 +137,7 @@ def build_documents_from_manifest(manifest: Dict[str, Any], project_root: Path) 
                 "source_url": source_url,
                 "content_type": content_type,
                 "run_date": run_date,
+                "fetched_at": fetched_at,
             }
             documents.append(Document(page_content=text, metadata=metadata))
         except Exception:
