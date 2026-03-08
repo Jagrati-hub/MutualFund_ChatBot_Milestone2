@@ -1,0 +1,236 @@
+{
+  "run_date": "2026-03-08",
+  "artifacts": [
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-amc-overview.json",
+      "source_url": "https://groww.in/mutual-funds/amc/groww-mutual-funds",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:06.598203+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-total-market-index-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-total-market-index-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:15.040501+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-multicap-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-multicap-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:23.400867+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-small-cap-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-small-cap-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:31.505347+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-large-cap-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-large-cap-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:39.571873+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-value-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-value-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:47.619338+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-elss-tax-saver-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-elss-tax-saver-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:03:55.612012+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-banking-financial-services-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-banking-and-financial-services-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:03.489963+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-smallcap-250-index-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-smallcap-250-index-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:11.567568+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-non-cyclical-consumer-index-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-non-cyclical-consumer-index-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:20.017118+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-next-50-index-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-next-50-index-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:28.099289+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-midcap-150-index-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-midcap-150-index-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:36.190387+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-liquid-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-liquid-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:44.365246+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-overnight-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-overnight-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:04:52.465562+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-short-duration-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-short-duration-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:01.013159+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-dynamic-bond-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-dynamic-bond-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:09.263769+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-gilt-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-gilt-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:17.505364+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-1d-rate-liquid-etf.json",
+      "source_url": "https://groww.in/etfs/groww-nifty-1d-rate-liquid-etf",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:25.867239+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-aggressive-hybrid-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-aggressive-hybrid-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:35.067934+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-multi-asset-allocation-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-multi-asset-allocation-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:44.072090+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-arbitrage-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-arbitrage-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:05:52.979927+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-ev-new-age-automotive-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-ev-new-age-automotive-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:06:02.968238+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-india-defence-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-india-defence-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:06:12.603371+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-gold-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-gold-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:06:21.965520+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-silver-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-silver-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:06:31.587175+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-multi-asset-omni-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-multi-asset-omni-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:06:41.350764+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-200-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-200-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:06:53.050214+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-500-momentum-50-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-500-momentum-50-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:07:03.935929+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-india-railways-psu-index-fund.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-india-railways-psu-index-fund-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:07:16.852191+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-bse-power-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-bse-power-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:07:28.918981+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-india-internet-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-india-internet-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:07:41.420771+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-pse-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-pse-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:07:54.266589+00:00Z",
+      "run_date": "2026-03-08"
+    },
+    {
+      "path": "C:/Users/mansh/MutualFund_ChatBot_Milestone2/MutualFund_ChatBot_Milestone2-1/phases/phase-2-processing/data/raw/2026-03-08/groww-nifty-capital-markets-etf-fof.json",
+      "source_url": "https://groww.in/mutual-funds/groww-nifty-capital-markets-etf-fof-direct-growth",
+      "content_type": "json",
+      "fetched_at": "2026-03-08T13:08:07.417468+00:00Z",
+      "run_date": "2026-03-08"
+    }
+  ]
+}

@@ -1,111 +1,71 @@
-# Quick Start Guide: Caching Solution
+# Quick Start Guide
 
-## What Was Fixed
+## 🚀 Get Started in 5 Minutes
 
-1. ✅ **API Quota Issue**: Implemented 24-hour caching to reduce API calls by 90%+
-2. ✅ **Query Detection**: Fixed single-fund vs category query detection
-3. ✅ **Performance**: 2-3x faster response times with caching
-
-## Quick Test
-
-Run the test suite to verify everything works:
-
+### 1. Install Dependencies
 ```bash
-python test_caching_solution.py
+cd phases/phase-0-foundation
+pip install -r requirements.txt
+playwright install chromium
 ```
 
-Expected output: All tests pass ✅
-
-## Usage Examples
-
-### Single Fund Query (Goes to RAG)
-```python
-from src.rag_engine import answer
-
-# Query for a specific fund
-result = answer("show exit load of aggressive hybrid fund")
-print(result['answer'])
+### 2. Add API Keys
+Create `phases/phase-0-foundation/.env`:
+```env
+GROQ_API_KEY=your_groq_key_here
+GEMINI_API_KEY_1=your_gemini_key
 ```
 
-### Category Query (Uses Category-Attribute Handler)
-```python
-from src.rag_engine import answer
+Get keys:
+- Groq: https://console.groq.com
+- Gemini: https://makersuite.google.com/app/apikey
 
-# Query for all funds in a category
-result = answer("show nav of equity funds")
-print(result['answer'])
-```
-
-## Cache Management
-
-### Pre-populate Cache (Recommended)
+### 3. Setup Data
 ```bash
-# Run once daily during off-peak hours
-python scripts/populate_cache.py
+# Scrape data
+cd phases/phase-1-collection
+python -m src.scraper
+
+# Ingest to database
+cd ../phase-2-processing
+python -m src.ingest
 ```
 
-### Clear Cache
+### 4. Run App
 ```bash
-# Clear all cache
-python scripts/clear_cache.py
-
-# Clear only old entries
-python scripts/clear_cache.py --older-than-hours 24
+cd ../phase-5-frontend
+streamlit run app.py
 ```
 
-## How to Verify Caching Works
+**Open**: http://localhost:8501
 
-1. **Run a query twice**:
-   ```bash
-   python -c "from src.rag_engine import answer; answer('show nav of commodities funds')"
-   python -c "from src.rag_engine import answer; answer('show nav of commodities funds')"
-   ```
+---
 
-2. **Check logs for cache hits**:
-   ```
-   INFO - Cache hit for Groww Gold ETF FoF - nav
-   ```
+## 📱 Usage
 
-3. **Verify cache files exist**:
-   ```bash
-   ls .cache/fund_attributes/
-   ```
+### Regular Users
+- Ask questions about Groww mutual funds
+- Use fund aliases (e.g., "ELSS", "liquid fund")
+- Compare multiple funds
 
-## Key Files
+### Administrators
+- Access: http://localhost:8501/admin
+- Run manual data updates
+- View system status
 
-- `src/rag_engine.py` - Main implementation with caching
-- `scripts/populate_cache.py` - Pre-populate cache
-- `scripts/clear_cache.py` - Clear cache
-- `test_caching_solution.py` - Test suite
-- `docs/CACHING.md` - Detailed documentation
-- `docs/API_QUOTA_SOLUTION.md` - Solution overview
-- `docs/RECOMMENDATIONS.md` - Production recommendations
+---
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
-### "API quota exceeded" errors
-- **Solution**: Wait for quota to reset or use cached data
-- **Prevention**: Run `python scripts/populate_cache.py` daily
+### Embedding Error
+```bash
+fix_embedding_error.bat
+```
 
-### Slow queries
-- **Solution**: Pre-populate cache with `populate_cache.py`
-- **Verification**: Check logs for "Cache hit" messages
+### Quota Error
+Wait 1 minute or add more API keys
 
-### Cache not working
-- **Solution**: Verify `.cache/fund_attributes/` directory exists
-- **Check**: Run test suite to verify functionality
+---
 
-## Next Steps
-
-1. ✅ Run test suite: `python test_caching_solution.py`
-2. ✅ Pre-populate cache: `python scripts/populate_cache.py`
-3. ✅ Set up daily cache refresh (see `docs/RECOMMENDATIONS.md`)
-4. ✅ Monitor cache hit rates in logs
-
-## Support
-
-For detailed documentation, see:
-- `docs/CACHING.md` - Caching system details
-- `docs/API_QUOTA_SOLUTION.md` - Solution overview
-- `docs/RECOMMENDATIONS.md` - Production best practices
-- `SOLUTION_SUMMARY.md` - Complete solution summary
+## 📚 Full Documentation
+See `PROJECT_DOCUMENTATION.md`

@@ -1,0 +1,4 @@
+# file: C:\Users\mansh\MutualFund_ChatBot_Milestone2\MutualFund_ChatBot_Milestone2-1\phases\phase-1-collection\src\scraper.py
+# hypothesis_version: 6.151.9
+
+[720, 1280, 3000, 60000, '-', '.pdf', 'Unknown', 'Z', '[^a-zA-Z0-9]+', '__main__', 'a', 'artifact_count', 'artifacts', 'category', 'domcontentloaded', 'enabled', 'fetched_at', 'fund_page', 'height', 'href', 'html', 'html.parser', 'manifest.json', 'manifest_path', 'name', 'output_dir', 'page', 'path', 'pdf', 'r', 'run_date', 'sources', 'type', 'url', 'utf-8', 'w', 'width', 'win32']

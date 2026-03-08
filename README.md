@@ -1,103 +1,77 @@
-# 📈 Groww Mutual Fund FAQ Assistant
+# Groww Mutual Fund FAQ Assistant
 
-A specialized RAG-based (Retrieval-Augmented Generation) chatbot designed to provide factual information about **32 Groww Mutual Fund schemes**. Built with LangChain, ChromaDB, and Google Gemini.
+AI-powered chatbot providing factual information about 32 Groww AMC mutual fund schemes.
 
----
+## ✨ Features
 
-## 🚀 Setup & Installation
+- 🤖 **Intelligent Q&A** - Powered by Groq Llama 3.1 8B
+- 📊 **32 Groww Funds** - Complete coverage
+- 🎨 **Dark Theme UI** - Modern, professional interface
+- 🔄 **Auto Updates** - Daily data refresh at 10 AM IST
+- 🛠️ **Admin Dashboard** - Separate admin controls
+- ⚡ **Fast Responses** - 2-4 second response time
 
-### 1. Prerequisites
-- Python 3.9 or higher
-- Git
-- Google Gemini API Key (or Groq/OpenAI key for fallback)
+## 🚀 Quick Start
 
-### 2. Local Installation
 ```bash
-# Clone the repository
-git clone https://github.com/Jagrati-hub/MutualFund_ChatBot_Milestone2.git
-cd MutualFund_ChatBot_Milestone2
-
-# Create a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install Playwright browsers (for scraping)
+# 1. Install
+pip install -r phases/phase-0-foundation/requirements.txt
 playwright install chromium
+
+# 2. Add API keys to phases/phase-0-foundation/.env
+GROQ_API_KEY=your_key
+
+# 3. Setup data
+cd phases/phase-1-collection && python -m src.scraper
+cd ../phase-2-processing && python -m src.ingest
+
+# 4. Run
+cd ../phase-5-frontend && streamlit run app.py
 ```
 
-### 3. Environment Configuration
-Create a `.env` file in the root directory and add your API keys:
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
+**Access:**
+- Main App: http://localhost:8501
+- Admin: http://localhost:8501/admin
+
+## 📖 Documentation
+
+- **Full Guide**: [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
+- **Quick Start**: [QUICK_START.md](QUICK_START.md)
+- **Fixes Applied**: [FINAL_FIXES_COMPLETE.md](FINAL_FIXES_COMPLETE.md)
+
+## 🎯 Example Queries
+
+```
+✅ "What is the NAV of Liquid Fund?"
+✅ "Which fund has the highest expense ratio?"
+✅ "Compare ELSS and Multicap Fund"
+✅ "Tell me about Groww Gold ETF"
 ```
 
-### 4. Running the App
-```bash
-streamlit run app.py
-```
+## 🛠️ Tech Stack
+
+- **Frontend**: Streamlit
+- **LLM**: Groq Llama 3.1 8B Instant
+- **Vector DB**: ChromaDB
+- **Embeddings**: Google Gemini
+- **Scraper**: Playwright + BeautifulSoup4
+
+## 📊 Performance
+
+- Response Time: 2-4 seconds
+- Storage: 320 KB for 32 funds
+- Concurrent Users: 10+
+
+## 🔐 API Keys Required
+
+- **Groq** (required): https://console.groq.com
+- **Gemini** (optional): https://makersuite.google.com/app/apikey
+- **OpenAI** (optional): https://platform.openai.com/api-keys
+
+## 📝 License
+
+Proprietary - Groww Mutual Fund Assistant
 
 ---
 
-## 🔍 Scope: Groww AMC & Schemes
-
-The assistant supports exactly **32 funds** across 4 categories:
-
-### 1. 📈 Equity (21 Funds)
-- Groww Large Cap Fund, Multicap, Small Cap, Value Fund, ELSS Tax Saver.
-- Index Funds: Nifty Total Market, Smallcap 250, Non-Cyclical Consumer, Next 50, Midcap 150.
-- ETFs & FoFs: EV & New Age Automotive, India Defence, 200 ETF, 500 Momentum 50, India Railways, BSE Power, India Internet, PSE ETF, Capital Markets.
-- Groww Nifty India Railways PSU Index Fund.
-
-### 2. 🏦 Debt (6 Funds)
-- Groww Liquid Fund, Overnight Fund, Short Duration, Dynamic Bond, Gilt Fund.
-- Groww Nifty 1D Rate Liquid ETF.
-
-### 3. ⚖️ Hybrid (3 Funds)
-- Groww Aggressive Hybrid Fund, Multi Asset Allocation, Arbitrage Fund.
-
-### 4. 🪙 Commodities (2 Funds)
-- Groww Gold ETF FoF.
-- Groww Silver ETF FoF.
-
----
-
-## 🛡️ Key Features & Guardrails
-
-- **Multi-Page Architecture**: 
-  - **Home**: Clean, user-facing chatbot interface with Groww premium theme (mint green #00d09c).
-  - **Admin Panel**: Dedicated `/admin` page for scheduler management and pipeline control.
-  - **Improved UI**: Enhanced chat input textbox with mint green border and better alignment.
-- **Protected Admin Access**: The Admin Panel is secured with a login gate.
-  - **URL**: Click the ⚙️ button in the top-right corner or navigate to `?page=admin`.
-  - **Credentials**: Username: `admin` | Password: `admin`
-- **Enhanced Answer Quality**:
-  - **Web Link Removal**: All inline web links are automatically removed from answers for cleaner presentation.
-  - **NAV Retrieval**: Multiple query variations ensure NAV data is retrieved for all funds, including debt funds.
-  - **Response Time**: Optimized for speed with reduced parallel workers and query variations (8-12 seconds for category queries).
-- **Stable UI**: Always-visible sample questions and smooth autoscrolling.
-- **Strict Citation**: Every factual answer includes a direct hyperlink and a "Source" citation line.
-- **Tiered Refusals**:
-  - **Personal Advice**: Blocks PAN, Aadhaar, account numbers, etc.
-  - **Financial Advice**: Refuses "Should I buy/sell?" or return comparisons.
-  - **Out-of-Scope**: Polite refusal for non-finance queries with a helpful redirection.
-- **Fail-Safe Retrieval**: Primary LLM: Gemini 1.5 Flash with automatic fallback to Groq (Llama 3.1) if quota limit (429) hit.
-
----
-
-## ⚠️ Known Limits
-
-1. **Facts Only**: The bot cannot compute or compare fund performance (e.g., "Which fund gave better returns?"). It will redirect you to the official factsheet.
-2. **Groww AMC Only**: Information is limited to Groww Mutual Fund schemes. It does not possess data on other AMCs (HDFC, SBI, etc.).
-3. **No Advice**: The bot is strictly a document-retrieval tool and cannot provide personalized investment recommendations.
-4. **Data Recency**: Information is as current as the last scraper run (viewable on the Admin Page).
-
----
-
-## 🌐 Deployment
-This project is configured for **Streamlit Cloud**:
-- `packages.txt` for Playwright Linux dependencies.
-- `streamlit/secrets` support in `rag_engine.py` for secure API key management.
+**Built with ❤️ for Groww Mutual Fund Investors**
