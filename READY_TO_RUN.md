@@ -97,6 +97,8 @@ streamlit run phases/phase-5-frontend/app.py
 4. **Ask questions**: Type custom queries about Groww funds
 5. **Check admin**: View scheduler status in sidebar
 
+**Having issues?** See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common problems and solutions.
+
 ## System Architecture
 
 ```
