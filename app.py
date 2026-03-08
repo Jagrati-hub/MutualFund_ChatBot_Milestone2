@@ -75,6 +75,8 @@ EXAMPLE_QUERIES: list[str] = [
 ]
 
 from src.shared import SCOPE_FUNDS_BY_CATEGORY, SCOPE_FUNDS, ensure_scheduler_started
+
+# Force Streamlit Cloud redeployment - Updated textbox styling
 CUSTOM_CSS = """
 <style>
 /* ── Google Fonts ── */
