@@ -9,8 +9,9 @@ langchain-core
 langchain-groq
 langchain-openai
 langchain-google-genai
-chromadb
-langchain-chroma
+chromadb==0.5.23
+chroma-hnswlib==0.7.6
+langchain-chroma==0.1.4
 pypdf
 sentence-transformers
 streamlit
