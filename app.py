@@ -6,6 +6,8 @@ Streamlit Cloud Entry Point
 from __future__ import annotations
 
 import sys
+import json
+import shutil
 from pathlib import Path
 from datetime import datetime
 from typing import Any, Dict
@@ -17,6 +19,113 @@ sys.path.insert(0, str(_root / "phases/phase-4-orchestration"))
 sys.path.insert(0, str(_root / "phases/phase-1-collection"))
 sys.path.insert(0, str(_root / "phases/phase-2-processing"))
 sys.path.insert(0, str(_root / "phases/phase-3-retrieval"))
+
+
+# ── Chroma rebuild helper ──────────────────────────────────────────────────────
+def _ensure_chroma_ready() -> None:
+    """
+    Verify the Chroma DB is loadable. If it fails (version mismatch or missing),
+    rebuild it from the raw JSON files in phases/phase-2-processing/data/raw/.
+    """
+    chroma_dir = _root / "phases/phase-2-processing/chroma"
+    raw_root = _root / "phases/phase-2-processing/data/raw"
+
+    def _try_load_chroma() -> bool:
+        try:
+            import chromadb
+            client = chromadb.PersistentClient(path=str(chroma_dir))
+            collections = client.list_collections()
+            if collections:
+                col = client.get_collection(collections[0].name)
+                col.count()
+            return True
+        except Exception:
+            return False
+
+    if _try_load_chroma():
+        return  # DB is fine
+
+    # DB broken or missing — rebuild from raw JSON files
+    if chroma_dir.exists():
+        shutil.rmtree(chroma_dir)
+    chroma_dir.mkdir(parents=True, exist_ok=True)
+
+    # Find latest raw data date
+    date_dirs = sorted([d for d in raw_root.iterdir() if d.is_dir()], reverse=True)
+    if not date_dirs:
+        return
+
+    latest_dir = date_dirs[0]
+
+    # Build documents directly from JSON files (bypass manifest absolute path issues)
+    from langchain_core.documents import Document
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+    documents = []
+    for json_file in sorted(latest_dir.glob("*.json")):
+        if json_file.name == "manifest.json":
+            continue
+        try:
+            with json_file.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            # Try to get source_url from manifest
+            source_url = data.get("url", "https://groww.in/mutual-funds/amc/groww-mutual-funds")
+            text = f"Fund: {data.get('fund_name', '')}\nCategory: {data.get('category', '')}\n{data.get('content', '')}"
+            if text.strip():
+                documents.append(Document(
+                    page_content=text,
+                    metadata={
+                        "source_url": source_url,
+                        "content_type": "json",
+                        "run_date": latest_dir.name,
+                    }
+                ))
+        except Exception:
+            continue
+
+    if not documents:
+        return
+
+    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    chunks = splitter.split_documents(documents)
+
+    # Load env for API key
+    from dotenv import load_dotenv
+    import os
+    load_dotenv(_root / "phases/phase-0-foundation/.env")
+
+    # Try Gemini embeddings, fall back to HuggingFace
+    embeddings = None
+    for key_name in ["GEMINI_API_KEY_1", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3", "GEMINI_API_KEY"]:
+        api_key = os.environ.get(key_name) or ""
+        if api_key:
+            try:
+                from langchain_google_genai import GoogleGenerativeAIEmbeddings
+                embeddings = GoogleGenerativeAIEmbeddings(
+                    model="models/gemini-embedding-001",
+                    google_api_key=api_key,
+                )
+                break
+            except Exception:
+                continue
+
+    if embeddings is None:
+        from langchain_community.embeddings import HuggingFaceEmbeddings
+        embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2",
+            model_kwargs={"device": "cpu"},
+        )
+
+    from langchain_chroma import Chroma
+    Chroma.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+        collection_name="groww_mf_faq",
+        persist_directory=str(chroma_dir),
+    )
+
+
+_ensure_chroma_ready()
 
 import streamlit as st
 

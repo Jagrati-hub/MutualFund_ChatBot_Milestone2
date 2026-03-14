@@ -9,13 +9,13 @@ langchain-core
 langchain-groq
 langchain-openai
 langchain-google-genai
-chromadb==0.5.23
-chroma-hnswlib==0.7.6
-langchain-chroma==0.1.4
+chromadb
+langchain-chroma
 pypdf
 sentence-transformers
 streamlit
 python-dotenv
+pysqlite3-binary
 google-generativeai
 pydantic
 tomli
