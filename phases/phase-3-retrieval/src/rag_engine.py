@@ -49,8 +49,12 @@ from src.shared import SCOPE_FUNDS_BY_CATEGORY
 logger = logging.getLogger(__name__)
 
 # ── Cache directory for attribute queries ──────────────────────────────────────
-CACHE_DIR = Path(".cache/fund_attributes")
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
+CACHE_DIR = _PROJECT_ROOT / ".cache/fund_attributes"
+try:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    CACHE_DIR = Path("/tmp/fund_attributes")
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Paths & constants ──────────────────────────────────────────────────────────
 # Resolve paths relative to project root
@@ -481,8 +485,17 @@ def build_rag_chain(config: RAGConfig) -> Any:
     else:
         logger.info("Using single LLM (Gemini Flash)")
 
+    # Enhanced prompt with explicit instructions for value extraction
+    extraction_instructions = """
+IMPORTANT EXTRACTION RULES:
+- If the question asks for NAV, expense ratio, AUM, returns, or other NUMERIC values, ALWAYS extract the EXACT value from the context.
+- Look for patterns like "NAV: ₹X.XX", "Expense Ratio: X%", "AUM: ₹X Cr", etc.
+- If the exact value is found in the context, provide it directly without paraphrasing.
+- Always include the date associated with the value (e.g., "as of 06 Mar 2026").
+"""
+
     prompt = ChatPromptTemplate.from_messages([
-        ("system", f"{system_prompt}\n\nRETIREVED CONTEXT:\n{{context}}"),
+        ("system", f"{system_prompt}\n\n{extraction_instructions}\n\nRETRIEVED CONTEXT:\n{{context}}"),
         ("human", "{question}"),
     ])
     return prompt | final_llm | StrOutputParser()
@@ -503,13 +516,6 @@ def _count_explicit_funds_in_query(query: str) -> int:
     
     matched_funds = set()
     
-    # Generic patterns that should NOT trigger multi-fund matching
-    # These are common fund name suffixes that appear in many funds
-    generic_patterns = [
-        "index fund", "etf fof", "total market", "nifty", "fund",
-        "hybrid fund", "bond fund", "liquid fund", "asset allocation"
-    ]
-    
     for fund in all_funds:
         fund_lower = fund.lower()
         
@@ -518,30 +524,49 @@ def _count_explicit_funds_in_query(query: str) -> int:
             matched_funds.add(fund)
             continue
         
-        # Try matching key parts, but be more selective
+        # For funds with unique multi-word identifiers, match on those
+        # e.g., "momentum 50" for "Groww Nifty 500 Momentum 50 ETF FoF"
         parts = fund_lower.split()
         
-        # Check last 2 words (e.g., "liquid fund", "gold etf", "silver etf")
-        # BUT: Skip if it's a generic pattern that appears in many funds
-        if len(parts) >= 2:
-            key_part = " ".join(parts[-2:])
-            if key_part not in generic_patterns and key_part in q:
-                matched_funds.add(fund)
-                continue
+        # Check for unique 2-3 word combinations that identify this fund
+        unique_identifiers = {
+            "momentum 50": "Groww Nifty 500 Momentum 50 ETF FoF",
+            "gold etf": "Groww Gold ETF FoF",
+            "silver etf": "Groww Silver ETF FoF",
+            "arbitrage fund": "Groww Arbitrage Fund",
+            "defence etf": "Groww Nifty India Defence ETF FoF",
+            "railways psu": "Groww Nifty India Railways PSU Index Fund",
+            "internet etf": "Groww Nifty India Internet ETF FoF",
+            "pse etf": "Groww Nifty PSE ETF FoF",
+            "capital markets": "Groww Nifty Capital Markets ETF FoF",
+            "ev new age": "Groww Nifty EV & New Age Automotive ETF FoF",
+            "liquid fund": "Groww Liquid Fund",
+            "overnight fund": "Groww Overnight Fund",
+            "short duration": "Groww Short Duration Fund",
+            "dynamic bond": "Groww Dynamic Bond Fund",
+            "gilt fund": "Groww Gilt Fund",
+            "aggressive hybrid": "Groww Aggressive Hybrid Fund",
+            "multi asset": "Groww Multi Asset Allocation Fund",
+            "omni fof": "Groww Multi Asset Omni FoF",
+            "elss tax": "Groww ELSS Tax Saver Fund",
+            "small cap": "Groww Small Cap Fund",
+            "large cap": "Groww Large Cap Fund",
+            "multicap fund": "Groww Multicap Fund",
+            "value fund": "Groww Value Fund",
+            "banking financial": "Groww Banking & Financial Services Fund",
+            "nifty total market": "Groww Nifty Total Market Index Fund",
+            "nifty smallcap": "Groww Nifty Smallcap 250 Index Fund",
+            "nifty non-cyclical": "Groww Nifty Non-Cyclical Consumer Index Fund",
+            "nifty next 50": "Groww Nifty Next 50 Index Fund",
+            "nifty midcap": "Groww Nifty Midcap 150 Index Fund",
+            "nifty 1d rate": "Groww Nifty 1D Rate Liquid ETF",
+            "nifty 200 etf": "Groww Nifty 200 ETF FoF",
+            "nifty 500 momentum": "Groww Nifty 500 Momentum 50 ETF FoF",
+            "bse power": "Groww BSE Power ETF FoF",
+        }
         
-        # Check last 3 words (e.g., "nifty total market")
-        # BUT: Skip if it's a generic pattern that appears in many funds
-        if len(parts) >= 3:
-            key_part = " ".join(parts[-3:])
-            if key_part not in generic_patterns and key_part in q:
-                matched_funds.add(fund)
-                continue
-        
-        # Check for specific fund identifiers (only for unique keywords)
-        # Only match if the keyword is unique to this fund or appears with "groww"
-        unique_keywords = ["gold", "silver", "arbitrage"]  # Unique fund identifiers
-        for keyword in unique_keywords:
-            if keyword in fund_lower and keyword in q:
+        for identifier, fund_name in unique_identifiers.items():
+            if fund_name.lower() == fund_lower and identifier in q:
                 matched_funds.add(fund)
                 break
     
@@ -805,16 +830,11 @@ def _handle_category_query(query: str) -> Optional[Dict[str, Any]]:
     - Queries containing "category" or "categor" keyword (covers "category", "categorize", etc.)
     - Queries asking for "all" funds in a specific category
     - Queries with explicit category-related verbs: segregate, break down, organize, group, etc.
+    
+    NOTE: Category-attribute queries (e.g., "NAV of equity funds") are handled by
+    _handle_category_attribute_query() and should not be intercepted here.
     """
     q = query.lower()
-    
-    # First check if query contains attribute keywords - if so, don't treat as category listing
-    attribute_keywords = ["nav", "expense ratio", "expense", "exit load", "returns", "aum", 
-                         "minimum investment", "fund manager", "performance", "cost", "fee"]
-    has_attribute = any(attr in q for attr in attribute_keywords)
-    
-    if has_attribute:
-        return None
     
     # 1. Check for explicit "category" keyword patterns or category-related verbs
     category_listing_patterns = [

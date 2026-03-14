@@ -8,25 +8,37 @@ from __future__ import annotations
 import sys
 import json
 import shutil
+import traceback
 from pathlib import Path
 from datetime import datetime
 from typing import Any, Dict
 
 # Add phase directories to Python path FIRST
-# Insert in reverse order so phase-3-retrieval is checked first
 _root = Path(__file__).parent
 sys.path.insert(0, str(_root / "phases/phase-4-orchestration"))
 sys.path.insert(0, str(_root / "phases/phase-1-collection"))
 sys.path.insert(0, str(_root / "phases/phase-2-processing"))
 sys.path.insert(0, str(_root / "phases/phase-3-retrieval"))
 
+# Import streamlit FIRST so errors can be displayed
+import streamlit as st
+
+# Set page config FIRST before anything else
+st.set_page_config(
+    page_title="Groww MF FAQ Assistant",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+    menu_items={
+        "Get Help": "https://groww.in",
+        "Report a bug": "https://groww.in/support",
+        "About": "Groww Mutual Fund FAQ Assistant"
+    }
+)
 
 # ── Chroma rebuild helper ──────────────────────────────────────────────────────
 def _ensure_chroma_ready() -> None:
-    """
-    Verify the Chroma DB is loadable. If it fails (version mismatch or missing),
-    rebuild it from the raw JSON files in phases/phase-2-processing/data/raw/.
-    """
+    """Rebuild Chroma DB from raw JSON if existing DB is broken/incompatible."""
     chroma_dir = _root / "phases/phase-2-processing/chroma"
     raw_root = _root / "phases/phase-2-processing/data/raw"
 
@@ -43,21 +55,19 @@ def _ensure_chroma_ready() -> None:
             return False
 
     if _try_load_chroma():
-        return  # DB is fine
+        return
 
-    # DB broken or missing — rebuild from raw JSON files
+    # Wipe and rebuild
     if chroma_dir.exists():
         shutil.rmtree(chroma_dir)
     chroma_dir.mkdir(parents=True, exist_ok=True)
 
-    # Find latest raw data date
     date_dirs = sorted([d for d in raw_root.iterdir() if d.is_dir()], reverse=True)
     if not date_dirs:
         return
 
     latest_dir = date_dirs[0]
 
-    # Build documents directly from JSON files (bypass manifest absolute path issues)
     from langchain_core.documents import Document
     from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -68,17 +78,12 @@ def _ensure_chroma_ready() -> None:
         try:
             with json_file.open("r", encoding="utf-8") as f:
                 data = json.load(f)
-            # Try to get source_url from manifest
             source_url = data.get("url", "https://groww.in/mutual-funds/amc/groww-mutual-funds")
             text = f"Fund: {data.get('fund_name', '')}\nCategory: {data.get('category', '')}\n{data.get('content', '')}"
             if text.strip():
                 documents.append(Document(
                     page_content=text,
-                    metadata={
-                        "source_url": source_url,
-                        "content_type": "json",
-                        "run_date": latest_dir.name,
-                    }
+                    metadata={"source_url": source_url, "content_type": "json", "run_date": latest_dir.name}
                 ))
         except Exception:
             continue
@@ -89,12 +94,10 @@ def _ensure_chroma_ready() -> None:
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = splitter.split_documents(documents)
 
-    # Load env for API key
     from dotenv import load_dotenv
     import os
     load_dotenv(_root / "phases/phase-0-foundation/.env")
 
-    # Try Gemini embeddings, fall back to HuggingFace
     embeddings = None
     for key_name in ["GEMINI_API_KEY_1", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3", "GEMINI_API_KEY"]:
         api_key = os.environ.get(key_name) or ""
@@ -125,37 +128,26 @@ def _ensure_chroma_ready() -> None:
     )
 
 
-_ensure_chroma_ready()
-
-import streamlit as st
-
-# Set page config FIRST
-st.set_page_config(
-    page_title="Groww MF FAQ Assistant",
-    page_icon="📈",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-    menu_items={
-        "Get Help": "https://groww.in",
-        "Report a bug": "https://groww.in/support",
-        "About": "Groww Mutual Fund FAQ Assistant"
-    }
-)
+# Run Chroma check with visible error handling
+try:
+    _ensure_chroma_ready()
+except Exception as _chroma_err:
+    st.warning(f"Chroma init warning: {_chroma_err}")
 
 # Now import our modules
 try:
     from src import rag_engine
     from src.shared import SCOPE_FUNDS_BY_CATEGORY, SCOPE_FUNDS
-except ImportError as e:
+except Exception as e:
     st.error(f"Failed to import modules: {e}")
+    st.code(traceback.format_exc())
     st.stop()
 
-# Scheduler is optional - only initialize if available
+# Scheduler is optional
 try:
     from src.shared import ensure_scheduler_started
 except ImportError:
     def ensure_scheduler_started():
-        """Fallback if scheduler is not available."""
         pass
 
 # ── constants ──────────────────────────────────────────────────────────────────
